@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    // manual
+    "rootDir": ".",
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["es2016", "esnext.asynciterable"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
