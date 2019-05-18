@@ -62,7 +62,7 @@ workflows:
   ultimate_pipeline:
     jobs:
       - test_graphql
-      - deploy_to_staging:
+      - deploy_graphql_to_staging:
           requires:
             - test_graphql
           filters:
