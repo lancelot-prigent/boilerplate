@@ -25,7 +25,7 @@ jobs:
     docker:
       - image: google/cloud-sdk
     environment:
-      - PROJECT_NAME: "boilerplate/graphql"
+      - PROJECT_NAME: "graphql"
       - GOOGLE_PROJECT_ID: "crypto-talon-240919"
       - GOOGLE_COMPUTE_ZONE: "europe-west1-b"
       - GOOGLE_CLUSTER_NAME: "standard-cluster-1"
