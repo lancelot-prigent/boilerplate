@@ -43,7 +43,7 @@ jobs:
       - setup_remote_docker
       - run: 
           name: Docker build and push
-          working_directory: ~/graphql
+          working_directory: ~/project/graphql
           command: |
             docker build \
               --build-arg COMMIT_REF=${CIRCLE_SHA1} \
