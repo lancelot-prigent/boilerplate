@@ -43,6 +43,7 @@ jobs:
       - setup_remote_docker
       - run: 
           name: Docker build and push
+          working_directory: ${HOME}/project/graphql
           command: |
             docker build \
               --build-arg COMMIT_REF=${CIRCLE_SHA1} \
@@ -54,7 +55,7 @@ jobs:
       - run: 
           name: Deploy to Kubernetes
           command: |
-            envsubst < ${HOME}/project/k8s.yml > ${HOME}/patched_k8s.yml
+            envsubst < ${HOME}/project/k8s/graphql/k8s.yml > ${HOME}/patched_k8s.yml
             kubectl apply -f ${HOME}/patched_k8s.yml
             kubectl rollout status deployment/${PROJECT_NAME}
 workflows:
