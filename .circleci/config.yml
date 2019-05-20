@@ -3,7 +3,7 @@ jobs:
   test_graphql:
     docker:
       - image: circleci/node:10
-    working_directory: ~/repo/graphql
+    working_directory: ~/repo/packages/graphql
     steps:
       - checkout:
           path: ~/repo
@@ -19,6 +19,9 @@ jobs:
             - node_modules
           key: v1-graphql-dependencies-{{ checksum "package-lock.json" }}
       - run:
+          name: Run lint
+          command: npm lint
+      - run:
           name: Run tests
           command: npm test
   deploy_graphql_to_staging:
@@ -31,7 +34,7 @@ jobs:
       - GOOGLE_CLUSTER_NAME: "standard-cluster-1"
     steps:
       - checkout
-      - run: 
+      - run:
           name: Setup Google Cloud SDK
           command: |
             apt-get install -qq -y gettext
@@ -41,9 +44,9 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
       - setup_remote_docker
-      - run: 
+      - run:
           name: Docker build and push
-          working_directory: ~/project/graphql
+          working_directory: ~/project/packages/graphql
           command: |
             docker build \
               --build-arg COMMIT_REF=${CIRCLE_SHA1} \
@@ -52,7 +55,7 @@ jobs:
             docker tag ${PROJECT_NAME} eu.gcr.io/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${CIRCLE_SHA1}
             gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://eu.gcr.io
             docker push eu.gcr.io/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${CIRCLE_SHA1}
-      - run: 
+      - run:
           name: Deploy to Kubernetes
           command: |
             envsubst < ${HOME}/project/k8s/graphql/k8s.yml > ${HOME}/patched_k8s.yml

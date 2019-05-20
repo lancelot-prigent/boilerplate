@@ -1,9 +1,9 @@
 FROM node:10-alpine as base
+
 ARG COMMIT_REF
 ARG BUILD_DATE
-ENV APP_COMMIT_REF=${COMMIT_REF} \
-    APP_BUILD_DATE=${BUILD_DATE}
-RUN env
+ENV APP_COMMIT_REF=${COMMIT_REF} 
+ENV APP_BUILD_DATE=${BUILD_DATE}
 
 FROM base as builder
 
@@ -31,13 +31,10 @@ ENV PORT=3000
 
 EXPOSE $PORT
 
-
 WORKDIR /usr/src/service
 
 COPY --from=builder /src/node_modules node_modules
 COPY --from=builder /src/dist dist
-
-RUN env
 
 USER node
 CMD ["node", "./dist/index.js"]

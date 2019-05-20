@@ -17,5 +17,6 @@ module.exports = {
   rules: {
     "@typescript-eslint/explicit-function-return-type": false,
     "@typescript-eslint/indent": false,
+    "import/prefer-default-export": false
   }
 };
